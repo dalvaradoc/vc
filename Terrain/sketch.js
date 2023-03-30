@@ -11,6 +11,8 @@ let max_min = 100;
 let landscape;
 let flying = 0;
 
+let max_min_slider, flying_slider, stroke_cb;
+
 function setup() {
   createCanvas(600,600, WEBGL);
 
@@ -22,14 +24,28 @@ function setup() {
     landscape[i] = new Array(cols);
   }
 
-  // stroke("green");
-  noStroke();
+  stroke("green");
+  // noStroke();
   // noFill();
+
+  max_min_slider = createSlider(50, 400, 100);
+  max_min_slider.position(10,10);
+  // max_min_slider.style('width','80px');
+  flying_slider = createSlider(0, 100, 20);
+  flying_slider.position(10,30);
+
+  stroke_cb = createCheckbox('label', true);
+  stroke_cb.changed(x => stroke_cb.checked() ? stroke("green") : noStroke());
+  stroke_cb.position(10,50);
+
 }
 
 function draw() {
+
+  max_min = max_min_slider.value();
+
   background(0); 
-  // flying -= 0.02;
+  flying -= flying_slider.value()/1000;
   let yoff = flying;
   for (let y = 0; y < rows; ++y){
     let xoff = 0;
@@ -39,7 +55,7 @@ function draw() {
     }
     yoff += 0.05;
   }
-  // orbitControl();
+  orbitControl();
   rotateX(PI/3);
   translate(-w/2,-h/2);
 
